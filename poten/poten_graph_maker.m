@@ -1,8 +1,6 @@
 
-%peakfinder(data.time,data.data,startT);
 load("C:\Users\Legion Pro5\Documents\FRA271-LAB1-A6-06-27\poten\sliding\slid_a1.mat")
 startT=[1,15,24,41,53,70,85,100,112,123,132,142,151];
-
 
 
 load("C:\Users\Legion Pro5\Documents\FRA271-LAB1-A6-06-27\poten\sliding\slid_a2.mat")
@@ -18,16 +16,17 @@ startT=[1,15,22,34,45,56,66,76,87,98,110,120,130];
 load("C:\Users\Legion Pro5\Documents\FRA271-LAB1-A6-06-27\poten\sliding\slid_b1.mat")
 startT=[2,11,18,28,38,46,54,64,70,76,85,92,100];
 %[x1,y1]=slidingmethod(data.time,data.data,startT);
+%peak1=peakfinder(data.time,data.data,startT);
 
 load("C:\Users\Legion Pro5\Documents\FRA271-LAB1-A6-06-27\poten\sliding\slid_b2.mat")
 startT=[1,15,20,28,36,43,50,58,65,72,79,86,94];
 %[x2,y2]=slidingmethod(data.time,data.data,startT);
-
+%peak2=peakfinder(data.time,data.data,startT);
 load("C:\Users\Legion Pro5\Documents\FRA271-LAB1-A6-06-27\poten\sliding\slid_b3.mat")
 startT=[1,7,14,21,28,35,41,47,54,60,67,73,80];
 %[x3,y3]=slidingmethod(data.time,data.data,startT);
-
-%slidingmethod(data.time,data.data,startT);
+%peak3=peakfinder(data.time,data.data,startT);
+%graphplotter(0:numel(peak1)-1,peak1,peak2,peak3)
 
 load("C:\Users\Legion Pro5\Documents\FRA271-LAB1-A6-06-27\poten\rotational\rot_a1.mat");
 startT=[1,10,17,24,30,36,42,48,53,58,62,67,72,77,81,86,92,97,101,104,109];
@@ -56,20 +55,20 @@ startT=[2,6,10,15,20,23,28,32,37,41,44,48,52,56,60,63,67,72,77,81,86];
 
 load("C:\Users\Legion Pro5\Documents\FRA271-LAB1-A6-06-27\poten\rotational\rot_c1.mat");
 startT=[1,8,13,17,23,27,32,38,42,46,51,56,59,64,68,74,78,82,86,90,92];
-[x1,y1]=rotamethod(data.time,data.data,startT);
+%[x1,y1]=rotamethod(data.time,data.data,startT);
 
 
 load("C:\Users\Legion Pro5\Documents\FRA271-LAB1-A6-06-27\poten\rotational\rot_c2.mat");
 startT=[1,5,10,16,20,24,29,33,37,41,45,49,53,56,60,64,68,71,76,80,84];
-[x2,y2]=rotamethod(data.time,data.data,startT);
+%[x2,y2]=rotamethod(data.time,data.data,startT);
 
 load("C:\Users\Legion Pro5\Documents\FRA271-LAB1-A6-06-27\poten\rotational\rot_c3.mat");
 startT=[1,5,8,13,18,22,27,32,36,41,45,51,55,60,65,69,73,77,82,86,90];
-[x3,y3]=rotamethod(data.time,data.data,startT);
-graphplotter(x1,y1,y2,y3)
+%[x3,y3]=rotamethod(data.time,data.data,startT);
+%graphplotter(x1,y1,y2,y3)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
+schmitt_plot()
 
 %FUNCTIONS
 
@@ -117,24 +116,24 @@ end
 end
 function []=graphplotter(x,y1,y2,y3)
 y=[];
-
 for i=1:numel(y2)
     y(end+1)=(y1(i)+y2(i)+y3(i))/3;
 end
-
-
+y=y*1000;
 plot(x,y,'Marker','o','LineWidth',4)
+
 hold on
-title('Rotary Potentiometer "C" Characteristics (mean of N=3)','FontSize',20)
-xlabel("Rotational Travel (%) ",'FontWeight','Bold','FontSize',20);
-ylabel({'V_{1-2} / V_{1-3} \times 100  (%)'},'FontSize',20,'FontWeight','Bold');
-text(0,-5,"Terminal 1",'FontSize',15);
-text(92,-5,"Terminal 3",'FontSize',15);
+%title('Rotary Potentiometer "C" Characteristics (mean of N=3)','FontSize',20)
+title('Sliding Potentiometer "B" Noise Peak (mean of N=3)','FontSize',20)
+xlabel("ช่วงตำแหน่งของตัวเลื่อน ",'FontWeight','Bold','FontSize',20);
+%ylabel({'V_{1-2} / V_{1-3} \times 100  (%)'},'FontSize',20,'FontWeight','Bold');
+ylabel({'Noise Peak (mV)'},'FontSize',20,'FontWeight','Bold');
+text(0,-1,"Terminal 1",'FontSize',15);
+text(11.5,-1,"Terminal 3",'FontSize',15);
 grid on 
 grid minor
-
-
 end
+
 function [bigdistance,v]=slidingmethod(time,data,startT)
 distance=[0,0.2,0.7,1.2,1.7,2.2,2.7,3.2,3.7,4.2,4.7,5.2,5.7];
 adc=dataselecter(time,data,startT,1000);
@@ -181,7 +180,30 @@ for i=1:numel(v)
         
         end
     end
-plot([1:numel(peak)],peak);
+%plot([1:numel(peak)],peak);
 end
 
-
+function []=schmitt_plot()
+    fig=openfig("C:\Users\Legion Pro5\Documents\FRA271-LAB1-A6-06-27\poten\schmitt_fig.fig");
+    lines=findall(fig,'-property','Ydata');
+    
+    x1=get(lines(1),"XData");
+    x2=get(lines(2),"XData");
+    y1=get(lines(1),"YData");
+    y2=get(lines(2),"YData");
+    close
+    figure;
+    x1=x1+13.001;
+    x2=x2+13.001;
+    plot(x1(147000:end),y1(147000:end),'LineWidth',4);
+    hold on
+    plot(x2(147000:end),y2(147000:end),'LineWidth',4)
+    title('กราฟแสดงการทำงานของวงจรschmitt trigger','FontSize',20)
+    xlim([0,20])
+    ylim([0,3.3])
+    xlabel('เวลา (s)','FontSize',20)
+    ylabel('แรงดัน (V)','FontSize',20)
+    legend('สัญญาณ input', 'สัญญาณ output','FontSize',15)
+    grid on 
+    grid minor
+end
