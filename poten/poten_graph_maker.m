@@ -16,17 +16,17 @@ startT=[1,15,22,34,45,56,66,76,87,98,110,120,130];
 load("C:\Users\Legion Pro5\Documents\FRA271-LAB1-A6-06-27\poten\sliding\slid_b1.mat")
 startT=[2,11,18,28,38,46,54,64,70,76,85,92,100];
 %[x1,y1]=slidingmethod(data.time,data.data,startT);
-%peak1=peakfinder(data.time,data.data,startT);
+peak1=peakfinder(data.time,data.data,startT);
 
 load("C:\Users\Legion Pro5\Documents\FRA271-LAB1-A6-06-27\poten\sliding\slid_b2.mat")
 startT=[1,15,20,28,36,43,50,58,65,72,79,86,94];
 %[x2,y2]=slidingmethod(data.time,data.data,startT);
-%peak2=peakfinder(data.time,data.data,startT);
+peak2=peakfinder(data.time,data.data,startT);
 load("C:\Users\Legion Pro5\Documents\FRA271-LAB1-A6-06-27\poten\sliding\slid_b3.mat")
 startT=[1,7,14,21,28,35,41,47,54,60,67,73,80];
-%[x3,y3]=slidingmethod(data.time,data.data,startT);
-%peak3=peakfinder(data.time,data.data,startT);
-%graphplotter(0:numel(peak1)-1,peak1,peak2,peak3)
+[x3,y3]=slidingmethod(data.time,data.data,startT);
+peak3=peakfinder(data.time,data.data,startT);
+graphplotter(0:numel(peak1)-1,peak1,peak2,peak3)
 
 load("C:\Users\Legion Pro5\Documents\FRA271-LAB1-A6-06-27\poten\rotational\rot_a1.mat");
 startT=[1,10,17,24,30,36,42,48,53,58,62,67,72,77,81,86,92,97,101,104,109];
@@ -68,7 +68,7 @@ startT=[1,5,8,13,18,22,27,32,36,41,45,51,55,60,65,69,73,77,82,86,90];
 %graphplotter(x1,y1,y2,y3)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-schmitt_plot()
+%schmitt_plot()
 
 %FUNCTIONS
 
